@@ -1,11 +1,13 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Injectable } from "@angular/core";
 import { FormService } from "../form.service";
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: "app-form",
   templateUrl: "./form.component.html",
   styleUrls: ["./form.component.scss"]
 })
+@Injectable()
 export class FormComponent implements OnInit {
   phoneNumber = "";
   name = "";
@@ -14,10 +16,15 @@ export class FormComponent implements OnInit {
   nameChecked = false;
   emailChecked = false;
   phoneChecked = false;
-  formValid = false
+  formValid = false;
+  http: Http;
 
-  constructor(formService: FormService) {
+  private formUrl =
+    "https://script.google.com/macros/s/AKfycbxeqfxU8OEuCIdIMVnJUqdfG0OV1xMDe2rottSdsRungEjb3phe/exec";
+
+  constructor(formService: FormService, http: HttpClient) {
     this.formService = formService;
+    this.http = http;
   }
 
   ngOnInit() {
@@ -32,16 +39,23 @@ export class FormComponent implements OnInit {
     if (input.name === "phone") this.phoneChecked = input.checked;
   }
 
-
   onSubmit(submittedForm) {
     if (submittedForm.invalid) {
       return;
     }
-    console.log(submittedForm);
+    console.log(submittedForm, 'submittedForm');
     this.formService.addGarfieldFan(
       submittedForm.value.name,
       submittedForm.value.phone,
       submittedForm.value.email
+    );
+
+    // e.preventDefault()
+    const { name, email } = submittedForm;
+    this.http.get(
+      `${this.formUrl}?name=${encodeURIComponent(
+        name
+      )}&email=${encodeURIComponent(email)}`
     );
   }
 }

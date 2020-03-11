@@ -1,0 +1,120 @@
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
+@mixin for-tablet-portrait-up {
+  @media (min-width: 600px) {
+    @content;
+  }
+}
+@mixin for-tablet-landscape-up {
+  @media (min-width: 900px) {
+    @content;
+  }
+}
+@mixin for-desktop-up {
+  @media (min-width: 1200px) {
+    @content;
+  }
+}
+
+.box {
+  padding-top: 20%;
+  // width: 80%;
+  @include for-phone-only {
+    padding-top: 5%;
+    width: 100%;
+  }
+}
+
+.form-group-fields{
+  padding: 30px;
+  // width: 110%;
+  // height: 90px;
+  border: 2px dashed;
+  // display: block;
+}
+.form-group {
+  display: block;
+  width: 100%;
+  height: 90px;
+  margin-bottom: 50px;
+}
+.opt-in-elements {
+  display: inline-block;
+  width: 100%;
+  margin: 10px 0px;
+  @include for-phone-only {
+    text-align: center;
+  }
+}
+.opt-in {
+  display: inline;
+  @include for-phone-only {
+    font-size: 14px;
+  }
+}
+input[type="checkbox"] {
+  margin: 0 10px;
+}
+
+input.ng-untouched:focus ~ .floating-label,
+input.ng-touched ~ .floating-label {
+  // input:not(:focus):valid ~ .floating-label{
+  top: -50px;
+  bottom: 10px;
+  left: 20px;
+  font-size: 11px;
+  font-style: italic;
+  // font-weight: bold;
+  opacity: 1;
+}
+label {
+  @include for-phone-only {
+    font-size: 12px;
+  }
+}
+.inputText {
+  font-size: 16px;
+  // padding:20px 0;
+  padding-top: 20px;
+}
+.grey {
+  color: lightgray;
+  font-style: italic;
+}
+
+.floating-label {
+  margin-top: 10px;
+  position: relative;
+  pointer-events: none;
+  left: 10px;
+  top: -40px;
+  transition: 0.2s ease all;
+}
+
+input.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
+
+.help-block {
+  position: absolute;
+  left: 5%;
+  @include for-phone-only {
+  left: 10%;
+  font-size: 14px;
+}
+}
+
+.disable-message{
+  display: block;
+  color: lightgrey;
+  line-height: 1.2;
+  text-align: center;
+  margin: 0 10px;
+}
+.btn{
+  display: block;
+  margin: 20px auto 5px;
+}

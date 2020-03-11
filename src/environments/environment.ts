@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  formUrl:
+    "https://script.google.com/macros/s/AKfycbxeqfxU8OEuCIdIMVnJUqdfG0OV1xMDe2rottSdsRungEjb3phe/exec"
 };
 
 /*

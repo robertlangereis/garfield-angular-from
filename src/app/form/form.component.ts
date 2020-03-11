@@ -1,6 +1,7 @@
 import { Component, OnInit, Injectable } from "@angular/core";
 import { FormService } from "../form.service";
 import { HttpClient } from "@angular/common/http";
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: "app-form",
@@ -19,18 +20,12 @@ export class FormComponent implements OnInit {
   formValid = false;
   http: HttpClient;
 
-  private formUrl =
-    "https://script.google.com/macros/s/AKfycbxeqfxU8OEuCIdIMVnJUqdfG0OV1xMDe2rottSdsRungEjb3phe/exec";
-
   constructor(formService: FormService, http: HttpClient) {
     this.formService = formService;
     this.http = http;
   }
 
-  ngOnInit() {
-    console.log(this.emailChecked);
-    console.log(this.phoneChecked);
-  }
+  ngOnInit() {}
 
   checkboxCheck(input) {
     console.log(input.checked, "event");
@@ -49,25 +44,17 @@ export class FormComponent implements OnInit {
       submittedForm.value.phone,
       submittedForm.value.email
     );
-
-    // e.preventDefault()
     const { name, email, phone } = submittedForm.value;
-    console.log("email", email);
-    console.log("name", name);
-    console.log("phone", phone);
     this.http
       .get(
-        `${this.formUrl}?name=${encodeURIComponent(
+        `${environment.formUrl}?name=${encodeURIComponent(
           name
-        )}&email=${encodeURIComponent(email)}&phone_nr=${encodeURIComponent(phone)}`
+        )}&email=${encodeURIComponent(email)}&phone_nr=${encodeURIComponent(
+          phone
+        )}`
       )
       .subscribe((response: Response) => {
         console.log(response);
       });
-    // this.http
-    //   .get("http://swapi.co/api/people/")
-    //   .subscribe((response: Response) => {
-    //     console.log(response);
-    //   });
   }
 }

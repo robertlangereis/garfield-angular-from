@@ -17,7 +17,7 @@ export class FormComponent implements OnInit {
   emailChecked = false;
   phoneChecked = false;
   formValid = false;
-  http: Http;
+  http: HttpClient;
 
   private formUrl =
     "https://script.google.com/macros/s/AKfycbxeqfxU8OEuCIdIMVnJUqdfG0OV1xMDe2rottSdsRungEjb3phe/exec";
@@ -43,7 +43,7 @@ export class FormComponent implements OnInit {
     if (submittedForm.invalid) {
       return;
     }
-    console.log(submittedForm, 'submittedForm');
+    console.log(submittedForm, "submittedForm");
     this.formService.addGarfieldFan(
       submittedForm.value.name,
       submittedForm.value.phone,
@@ -51,11 +51,23 @@ export class FormComponent implements OnInit {
     );
 
     // e.preventDefault()
-    const { name, email } = submittedForm;
-    this.http.get(
-      `${this.formUrl}?name=${encodeURIComponent(
-        name
-      )}&email=${encodeURIComponent(email)}`
-    );
+    const { name, email, phone } = submittedForm.value;
+    console.log("email", email);
+    console.log("name", name);
+    console.log("phone", phone);
+    this.http
+      .get(
+        `${this.formUrl}?name=${encodeURIComponent(
+          name
+        )}&email=${encodeURIComponent(email)}&phone_nr=${encodeURIComponent(phone)}`
+      )
+      .subscribe((response: Response) => {
+        console.log(response);
+      });
+    // this.http
+    //   .get("http://swapi.co/api/people/")
+    //   .subscribe((response: Response) => {
+    //     console.log(response);
+    //   });
   }
 }

@@ -1,7 +1,8 @@
 import { Component, OnInit, Injectable } from "@angular/core";
 import { FormService } from "../form.service";
 import { HttpClient } from "@angular/common/http";
-import { environment } from '../../environments/environment';
+// import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFireDatabase } from "angularfire2/database";
 
 @Component({
   selector: "app-form",
@@ -20,7 +21,11 @@ export class FormComponent implements OnInit {
   formValid = false;
   http: HttpClient;
 
-  constructor(formService: FormService, http: HttpClient) {
+  constructor(
+    formService: FormService,
+    http: HttpClient,
+    public db: AngularFireDatabase
+  ) {
     this.formService = formService;
     this.http = http;
   }
@@ -38,23 +43,32 @@ export class FormComponent implements OnInit {
     if (submittedForm.invalid) {
       return;
     }
-    console.log(submittedForm, "submittedForm");
-    this.formService.addGarfieldFan(
-      submittedForm.value.name,
-      submittedForm.value.phone,
-      submittedForm.value.email
-    );
+    // console.log(submittedForm, "submittedForm");
+    // this.formService.addGarfieldFan(
+    //   submittedForm.value.name,
+    //   submittedForm.value.phone,
+    //   submittedForm.value.email
+    // );
     const { name, email, phone } = submittedForm.value;
-    this.http
-      .get(
-        `${environment.formUrl}?name=${encodeURIComponent(
-          name
-        )}&email=${encodeURIComponent(email)}&phone_nr=${encodeURIComponent(
-          phone
-        )}`
-      )
-      .subscribe((response: Response) => {
-        console.log(response);
-      });
+    console.log("phone", phone);
+    console.log("email", email);
+    console.log("name", name);
+    let newSubscriber = { name, email, phone };
+
+    this.db.list("/subscribers").push(newSubscriber);
+    console.log("succes, new subscriber", newSubscriber);
+    // this.form.reset();
+
+    // this.http
+    //   .get(
+    //     `${environment.formUrl}?name=${encodeURIComponent(
+    //       name
+    //     )}&email=${encodeURIComponent(email)}&phone=${encodeURIComponent(
+    //       phone
+    //     )}`
+    //   )
+    //   .subscribe((response: Response) => {
+    //     console.log("response", response);
+    //   });
   }
 }
